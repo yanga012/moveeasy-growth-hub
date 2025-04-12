@@ -1,8 +1,17 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +19,17 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const projectLinks = [
+    {
+      name: "Project 1",
+      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e"
+    },
+    {
+      name: "Project 2",
+      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e"
+    }
+  ];
 
   return (
     <header className="w-full bg-white shadow-sm py-4">
@@ -46,9 +66,34 @@ const Navbar = () => {
             <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               Contact
             </Link>
-            <Button className="ml-4 bg-accent text-accent-foreground hover:bg-accent/90">
-              Get Started
-            </Button>
+            
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-accent text-accent-foreground hover:bg-accent/90">
+                    Get Started
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[250px] gap-3 p-4">
+                      {projectLinks.map((project, index) => (
+                        <li key={index} className="row-span-1">
+                          <NavigationMenuLink asChild>
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            >
+                              <div className="text-sm font-medium leading-none">{project.name}</div>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </nav>
         </div>
 
@@ -97,9 +142,23 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              Get Started
-            </Button>
+            
+            {/* Projects Links in Mobile Menu */}
+            <div className="border-t pt-4 mt-2">
+              <h3 className="font-medium mb-2">Projects:</h3>
+              {projectLinks.map((project, index) => (
+                <a 
+                  key={index}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="block py-2 text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {project.name}
+                </a>
+              ))}
+            </div>
           </nav>
         )}
       </div>
