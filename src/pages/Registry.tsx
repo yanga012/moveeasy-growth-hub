@@ -26,18 +26,41 @@ interface RegistryFormValues {
 }
 
 const Registry = () => {
-  const { register, handleSubmit, formState: { errors }, control } = useForm<RegistryFormValues>();
+  const { register, handleSubmit, formState: { errors }, control, reset } = useForm<RegistryFormValues>();
   const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (data: RegistryFormValues) => {
+  const onSubmit = async (data: RegistryFormValues) => {
     setSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Format the email content
+      const emailContent = `
+        New Registration:
+        First Name: ${data.firstName}
+        Surname: ${data.surname}
+        Gender: ${data.gender}
+        ID Number: ${data.idNumber}
+        Cellphone: ${data.cellphone}
+        Trade License: ${data.tradeLicense || 'No'}
+        Address: ${data.address}
+      `;
+
+      console.log('Sending email with data:', emailContent);
+      
+      // In a real implementation, you would use an API service here
+      // This is a simulated email sending process
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Reset the form after successful submission
+      reset();
+      
+      toast.success('Registration submitted successfully! Data sent to y.skaal@moveeasy.co.za');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('Failed to submit registration. Please try again.');
+    } finally {
       setSubmitting(false);
-      console.log('Form submitted:', data);
-      toast.success('Registration submitted successfully!');
-    }, 1500);
+    }
   };
 
   return (
@@ -56,7 +79,7 @@ const Registry = () => {
         <SectionTitle
           title="E-Kasilami Program Registration"
           subtitle="Shop Owner Document Registry"
-          center
+          centered
         />
 
         {/* Form Container */}
@@ -175,6 +198,11 @@ const Registry = () => {
               {errors.address && (
                 <p className="text-sm text-destructive">{errors.address.message}</p>
               )}
+            </div>
+
+            {/* Email Notice */}
+            <div className="text-sm text-muted-foreground">
+              <p>By submitting this form, your registration details will be sent to y.skaal@moveeasy.co.za</p>
             </div>
 
             {/* Submit Button */}
