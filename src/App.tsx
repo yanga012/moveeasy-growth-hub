@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Resources from "./pages/Resources";
 import Community from "./pages/Community";
 import Contact from "./pages/Contact";
+import Registry from "./pages/Registry";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/resources" element={<Resources />} />
             <Route path="/community" element={<Community />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/registry" element={<Registry />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

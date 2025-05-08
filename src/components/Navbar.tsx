@@ -66,6 +66,9 @@ const Navbar = () => {
             <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               Contact
             </Link>
+            <Link to="/registry" className="text-foreground hover:text-primary transition-colors">
+              Registry
+            </Link>
             
             <NavigationMenu>
               <NavigationMenuList>
@@ -141,6 +144,13 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
+            </Link>
+            <Link 
+              to="/registry" 
+              className="text-foreground hover:text-primary transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Registry
             </Link>
             
             {/* Projects Links in Mobile Menu */}
