@@ -3,7 +3,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { RegistryFormValues } from './RegistryForm';
+import { RegistryFormValues } from '@/types/registry';
 
 interface RegistryConfirmationModalProps {
   open: boolean;
