@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,19 +16,34 @@ import {
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { toast } = useToast();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleMooveClick = () => {
+    toast({
+      title: "Coming Soon!",
+      description: "Moove is currently under development. Stay tuned for updates!",
+      duration: 3000,
+    });
+  };
+
   const projectLinks = [
     {
       name: "Project 1",
-      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e"
+      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e",
+      buttonLabel: "Quickscan",
+      buttonUrl: "https://preview--quick-scan-stock-control.lovable.app/auth",
+      isExternal: true
     },
     {
-      name: "Project 2",
-      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e"
+      name: "Project 2", 
+      url: "https://lovable.dev/projects/e2de899b-cf82-4184-a58b-35fc2cd4ef2e",
+      buttonLabel: "Moove",
+      buttonUrl: null,
+      isExternal: false
     }
   ];
 
@@ -77,19 +93,49 @@ const Navbar = () => {
                     Get Started
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[250px] gap-3 p-4">
+                    <ul className="grid w-[300px] gap-3 p-4">
                       {projectLinks.map((project, index) => (
                         <li key={index} className="row-span-1">
-                          <NavigationMenuLink asChild>
-                            <a
-                              href={project.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                            >
-                              <div className="text-sm font-medium leading-none">{project.name}</div>
-                            </a>
-                          </NavigationMenuLink>
+                          <div className="block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                            <div className="text-sm font-medium leading-none mb-2">{project.name}</div>
+                            <div className="flex gap-2">
+                              <NavigationMenuLink asChild>
+                                <a
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  View Project
+                                </a>
+                              </NavigationMenuLink>
+                              {project.buttonUrl ? (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  asChild
+                                  className="h-6 px-2 text-xs"
+                                >
+                                  <a
+                                    href={project.buttonUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {project.buttonLabel}
+                                  </a>
+                                </Button>
+                              ) : (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={handleMooveClick}
+                                  className="h-6 px-2 text-xs"
+                                >
+                                  {project.buttonLabel}
+                                </Button>
+                              )}
+                            </div>
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -157,16 +203,48 @@ const Navbar = () => {
             <div className="border-t pt-4 mt-2">
               <h3 className="font-medium mb-2">Projects:</h3>
               {projectLinks.map((project, index) => (
-                <a 
-                  key={index}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer" 
-                  className="block py-2 text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {project.name}
-                </a>
+                <div key={index} className="py-2 space-y-2">
+                  <a 
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer" 
+                    className="block text-foreground hover:text-primary transition-colors text-sm"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {project.name}
+                  </a>
+                  <div className="ml-4">
+                    {project.buttonUrl ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        asChild
+                        className="h-7 px-3 text-xs"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <a
+                          href={project.buttonUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {project.buttonLabel}
+                        </a>
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          handleMooveClick();
+                          setIsMenuOpen(false);
+                        }}
+                        className="h-7 px-3 text-xs"
+                      >
+                        {project.buttonLabel}
+                      </Button>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </nav>
