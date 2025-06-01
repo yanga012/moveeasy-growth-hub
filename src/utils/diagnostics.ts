@@ -52,7 +52,9 @@ const checkAccessibility = () => {
   inputsWithoutLabels.forEach(input => {
     const hasLabel = input.closest('label') || document.querySelector(`label[for="${input.id}"]`);
     if (!hasLabel) {
-      issues.push(`Input element missing label: ${input.type || 'unknown type'}`);
+      const inputElement = input as HTMLInputElement;
+      const inputType = inputElement.type || 'unknown type';
+      issues.push(`Input element missing label: ${inputType}`);
     }
   });
 
